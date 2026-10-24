@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "cube-cmake --build \"${workspaceFolder}/build/Debug\"",
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            // 编译并通过 ST-Link 烧录, 烧录后复位运行
+            "label": "download stlink",
+            "type": "shell",
+            "command": "C:/msys64/ucrt64/bin/openocd.exe -f openocd_stlink.cfg -c \"program build/Debug/basic_framework.elf verify reset exit\"",
+            "dependsOn": "build",
+            "problemMatcher": [],
+            "group": "build"
+        }
+    ]
+}

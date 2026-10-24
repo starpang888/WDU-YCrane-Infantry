@@ -1,0 +1,47 @@
+{
+    // 启动调试的快捷键是F5, 需要 Cortex-Debug 插件
+    "version": "0.2.0",
+    "configurations": [
+        // ST-Link 下载并调试: 先编译, 再烧录, 停在 main 入口
+        {
+            "name": "ST-Link Debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/basic_framework.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "serverpath": "C:/msys64/ucrt64/bin/openocd.exe",
+            "configFiles": ["openocd_stlink.cfg"],
+            // 使用 ST 工具链自带的 gdb, 与 GCC 14 生成的调试信息匹配
+            "gdbPath": "${env:LOCALAPPDATA}/stm32cube/bundles/gnu-gdb-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gdb.exe",
+            "device": "STM32F407IG",
+            "svdFile": "${workspaceFolder}/STM32F407.svd",
+            "runToEntryPoint": "main",
+            "rtos": "FreeRTOS",
+            "preLaunchTask": "build",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            }
+        },
+        // ST-Link 连接正在运行的程序, 不烧录不复位, 用于观察变量
+        {
+            "name": "ST-Link Attach",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/Debug/basic_framework.elf",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "serverpath": "C:/msys64/ucrt64/bin/openocd.exe",
+            "configFiles": ["openocd_stlink.cfg"],
+            "gdbPath": "${env:LOCALAPPDATA}/stm32cube/bundles/gnu-gdb-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gdb.exe",
+            "device": "STM32F407IG",
+            "svdFile": "${workspaceFolder}/STM32F407.svd",
+            "rtos": "FreeRTOS",
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": 4
+            }
+        }
+    ]
+}
